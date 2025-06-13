@@ -1,16 +1,31 @@
 import React from 'react';
-import { Editor, EditorState } from 'draft-js';
+import { Editor } from 'draft-js';
+import { useEditor } from '../../hooks/useEditor';
+import { WysiwygEditorProps } from '../../types/editor.types';
+import { toggleInlineStyle } from '../../utils/editorUtils';
 
 import 'draft-js/dist/Draft.css';
 
-const WysiwygEditor: React.FC = () => {
-  const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createEmpty()
-  );
+const WysiwygEditor: React.FC<WysiwygEditorProps> = ({
+  value,
+  onChange,
+  renderToolbar,
+  className,
+  style,
+}) => {
+  const { editorState, updateState } = useEditor(value, onChange);
+
+  const handleToggleStyle = (style: string) => {
+    updateState(toggleInlineStyle(editorState, style));
+  };
 
   return (
-    <div style={{ border: '1px solid #ccc', padding: '10px' }}>
-      <Editor editorState={editorState} onChange={setEditorState} />
+    <div
+      className={className}
+      style={{ border: '1px solid #ccc', padding: '10px', ...style }}
+    >
+      {renderToolbar?.(handleToggleStyle)}
+      <Editor editorState={editorState} onChange={updateState} />
     </div>
   );
 };
