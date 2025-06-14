@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import WysiwygEditor from '../components/WysiwygEditor';
+import './DemoPage.css';
 
 const fakeFetch = () =>
   new Promise<string>((resolve) => {
@@ -29,6 +30,7 @@ const EditorDemo = () => {
   const [controlledValue, setControlledValue] = useState<string>();
   const [savedValue, setSavedValue] = useState<string>();
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fakeFetch().then((val) => {
@@ -37,49 +39,51 @@ const EditorDemo = () => {
     });
   }, []);
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    setSaving(true);
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setSavedValue(controlledValue);
-    console.log('Saved value:', controlledValue);
+    setSaving(false);
   };
 
   return (
-    <div
-      style={{ padding: 32, display: 'flex', flexDirection: 'column', gap: 40 }}
-    >
-      <div>
+    <div className='demo-container'>
+      <div className='editor-section'>
         <h3>Controlled Editor</h3>
         {loading ? (
-          <div>Loading...</div>
+          <div className='loading-text'>Loading...</div>
         ) : (
           <>
             <WysiwygEditor
               value={controlledValue}
               onChange={setControlledValue}
             />
-              <button
-                onClick={handleSave}
-                style={{
-                  marginTop: 12,
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  padding: 10,
-                  cursor: 'pointer',
-                  borderRadius: 4,
-                }}
-              >
-              Save
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className={`save-button ${saving ? 'saving' : ''}`}
+            >
+              {saving ? (
+                <>
+                  <span className='save-spinner'></span>
+                  Saving...
+                </>
+              ) : (
+                'Save'
+              )}
             </button>
             {savedValue && (
-              <div style={{ color: 'green', marginTop: 8 }}>
-                ✅ Content saved!
+              <div className='save-success'>
+                <span className='success-icon'>✓</span>
+                Content saved successfully!
               </div>
             )}
           </>
         )}
       </div>
 
-      <div>
+      <div className='editor-section'>
         <h3>Uncontrolled Editor</h3>
         <WysiwygEditor />
       </div>
