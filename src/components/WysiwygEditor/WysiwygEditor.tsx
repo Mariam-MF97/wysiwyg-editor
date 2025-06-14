@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import { Editor, EditorState } from 'draft-js';
+import React, { useRef } from 'react';
+import { Editor } from 'draft-js';
+
 import { useEditor } from '../../hooks/useEditor';
 import { toggleInlineStyle, CUSTOM_STYLE_MAP } from '../../utils/editorUtils';
 import { WysiwygEditorProps } from '../../types/editor.types';

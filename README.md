@@ -1,46 +1,109 @@
-# Getting Started with Create React App
+# 📝 WYSIWYG Editor Component (React + Draft.js)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A lightweight, extensible WYSIWYG editor built with React and Draft.js, supporting both controlled and uncontrolled modes.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- ✅ Controlled & Uncontrolled modes
+- 🎨 Text formatting: Bold, Italic, Underline
+- 🖌️ Text & Background colors (no 3rd-party libraries)
+- 🧪 Unit tests (no 3rd-party testing libraries required)
+- 🧹 Custom toolbar support
+- 🦼 Clean UI & accessible ARIA labels
+- 🛠️ Fully customizable via props
 
-### `npm start`
+## 📦 Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+src/
+├── components/
+│   ├── WysiwygEditor/
+│   │   ├── WysiwygEditor.tsx
+│   │   └── index.ts
+│   └── Toolbar/
+│       ├── Toolbar.tsx
+│       ├── Toolbar.css
+│       ├── Toolbar.types.ts
+│       └── Toolbar.test.ts
+├── hooks/
+│   └── useEditor.ts
+├── types/
+│   └── editor.types.ts
+├── utils/
+│   └── editorUtils.ts
+├── constants/
+│   └── inlineStyles.ts
+├── pages/
+│   ├── DemoPage.tsx         # Controlled + uncontrolled demo
+│   └── EditorWithAsync.tsx  # Async fetch + save demo
+└── App.tsx
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🧑‍💻 Usage
 
-### `npm test`
+### Controlled Mode
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```jsx
+<WysiwygEditor value={editorContent} onChange={setEditorContent} />
+```
 
-### `npm run build`
+### Uncontrolled Mode
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```jsx
+<WysiwygEditor />
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🧪 Running Tests
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm test
+```
 
-### `npm run eject`
+Tests are written using Jest with no external testing libraries (e.g., Testing Library is not required).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🛠️ Custom Toolbar
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+You can inject your own toolbar:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```jsx
+<WysiwygEditor
+  renderToolbar={(onToggle) => <MyCustomToolbar onToggle={onToggle} />}
+/>
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📄 Styling
 
-## Learn More
+### Default inline styles:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- BOLD, ITALIC, UNDERLINE
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Text colors:
+
+- RED, GREEN, BLUE
+
+### Background colors:
+
+- YELLOW_BG, CYAN_BG, ORANGE_BG, PINK_BG, GRAY_BG, PURPLE_BG
+
+## 📋 Requirements
+
+- React 18+
+- Draft.js (only third-party lib used)
+
+## 📌 Notes
+
+- No third-party UI libraries (e.g., Material UI) are used
+- No third-party formatting libraries or color pickers
+- Toolbar and editor are fully accessible and testable
+
+## 📷 Preview
+
+Demo includes:
+
+- Controlled editor with Save button
+- Uncontrolled editor
+- Async fetch & save behavior simulation
+
+## ✅ Author
+
+Built with ❤️ by Mariam M. Farouk

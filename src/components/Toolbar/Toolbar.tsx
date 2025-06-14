@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+
 import { ToolbarProps } from './Toolbar.types';
 import {
   INLINE_STYLES,
   COLOR_STYLES,
   BG_COLOR_STYLES,
 } from '../../constants/inlineStyles';
+
+import './Toolbar.css';
 
 const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
   const [showTextColors, setShowTextColors] = useState(false);
@@ -41,40 +44,25 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
     <div
       role='toolbar'
       aria-label='Text formatting toolbar'
-      style={{
-        display: 'flex',
-        gap: '10px',
-        alignItems: 'center',
-        marginBottom: 12,
-        position: 'relative',
-      }}
+      className='toolbar'
     >
       {INLINE_STYLES.map(({ label, style }) => (
         <button
           key={style}
-          role='button'
           aria-label={`Format text ${style.toLowerCase()}`}
           onMouseDown={(e) => {
             e.preventDefault();
             handleToggle(style);
             onFocusEditor?.();
           }}
-          style={{
-            padding: '6px 10px',
-            fontWeight: 'bold',
-            border: '1px solid #ccc',
-            borderRadius: 4,
-            cursor: 'pointer',
-            background: '#fff',
-          }}
+          className='toolbar-button'
         >
           {label}
         </button>
       ))}
 
-      <div style={{ position: 'relative' }} ref={textColorRef}>
+      <div className='color-picker-container' ref={textColorRef}>
         <button
-          role='button'
           aria-label='Text color'
           aria-expanded={showTextColors}
           onMouseDown={(e) => {
@@ -82,13 +70,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
             setShowTextColors((prev) => !prev);
             setShowBgColors(false);
           }}
-          style={{
-            padding: '6px 10px',
-            border: '1px solid #ccc',
-            borderRadius: 4,
-            cursor: 'pointer',
-            background: '#fff',
-          }}
+          className='color-picker-button'
         >
           Text 🎨
         </button>
@@ -96,18 +78,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
           <div
             role='menu'
             aria-label='Text color options'
-            style={{
-              position: 'absolute',
-              top: '110%',
-              left: 0,
-              background: '#fff',
-              border: '1px solid #ccc',
-              padding: 6,
-              display: 'flex',
-              gap: 8,
-              zIndex: 2,
-              borderRadius: 4,
-            }}
+            className='color-picker-menu'
           >
             {COLOR_STYLES.map(({ style, color }) => (
               <button
@@ -119,53 +90,27 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
                   handleToggle(style);
                   onFocusEditor?.();
                 }}
-                style={{
-                  backgroundColor: color,
-                  width: 20,
-                  height: 20,
-                  borderRadius: '50%',
-                  cursor: 'pointer',
-                  border: '1px solid #999',
-                  padding: 0,
-                }}
+                className='color-option'
+                style={{ backgroundColor: color }}
               />
             ))}
           </div>
         )}
       </div>
 
-      <div style={{ position: 'relative' }} ref={bgColorRef}>
+      <div className='color-picker-container' ref={bgColorRef}>
         <button
           onMouseDown={(e) => {
             e.preventDefault();
             setShowBgColors((prev) => !prev);
             setShowTextColors(false);
           }}
-          style={{
-            padding: '6px 10px',
-            border: '1px solid #ccc',
-            borderRadius: 4,
-            cursor: 'pointer',
-            background: '#fff',
-          }}
+          className='color-picker-button'
         >
           BG 🖍️
         </button>
         {showBgColors && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '110%',
-              left: 0,
-              background: '#fff',
-              border: '1px solid #ccc',
-              padding: 6,
-              display: 'flex',
-              gap: 8,
-              zIndex: 2,
-              borderRadius: 4,
-            }}
-          >
+          <div className='color-picker-menu'>
             {BG_COLOR_STYLES.map(({ style, color }) => (
               <div
                 key={style}
@@ -174,14 +119,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
                   handleToggle(style);
                   onFocusEditor?.();
                 }}
-                style={{
-                  backgroundColor: color,
-                  width: 20,
-                  height: 20,
-                  borderRadius: '50%',
-                  cursor: 'pointer',
-                  border: '1px solid #999',
-                }}
+                className='color-option-bg'
+                style={{ backgroundColor: color }}
               />
             ))}
           </div>
