@@ -1,6 +1,5 @@
-
-import React, { useRef } from 'react';
-import { Editor } from 'draft-js';
+import React, { useRef, useEffect } from 'react';
+import { Editor, EditorState } from 'draft-js';
 import { useEditor } from '../../hooks/useEditor';
 import { toggleInlineStyle, CUSTOM_STYLE_MAP } from '../../utils/editorUtils';
 import { WysiwygEditorProps } from '../../types/editor.types';
@@ -32,10 +31,8 @@ const WysiwygEditor: React.FC<WysiwygEditorProps> = ({
       className={className}
       style={{
         border: '1px solid #ccc',
-        borderRadius: 4,
         padding: '10px',
-        backgroundColor: '#fdfdfd',
-        transition: 'border 0.2s ease',
+        borderRadius: 6,
         ...style,
       }}
     >
@@ -44,20 +41,14 @@ const WysiwygEditor: React.FC<WysiwygEditorProps> = ({
       ) : (
         <Toolbar onToggle={handleToggleStyle} onFocusEditor={focusEditor} />
       )}
-      <div
-        style={{
-          minHeight: 150,
-          padding: 8,
-          backgroundColor: '#fff',
-          cursor: 'text',
-        }}
-        onClick={focusEditor}
-      >
+      <div style={{ minHeight: 150, padding: 8, backgroundColor: '#fff' }}>
         <Editor
           ref={editorRef}
           editorState={editorState}
           onChange={updateState}
           customStyleMap={CUSTOM_STYLE_MAP}
+          spellCheck={true}
+          stripPastedStyles={true}
         />
       </div>
     </div>

@@ -1,26 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ToolbarProps } from './Toolbar.types';
-
-const INLINE_STYLES = [
-  { label: 'B', style: 'BOLD' },
-  { label: 'I', style: 'ITALIC' },
-  { label: 'U', style: 'UNDERLINE' },
-];
-
-const COLOR_STYLES = [
-  { style: 'RED', color: 'red' },
-  { style: 'GREEN', color: 'green' },
-  { style: 'BLUE', color: 'blue' },
-];
-
-const BG_COLOR_STYLES = [
-  { style: 'YELLOW_BG', color: 'yellow' },
-  { style: 'CYAN_BG', color: 'cyan' },
-  { style: 'ORANGE_BG', color: 'orange' },
-  { style: 'PINK_BG', color: 'pink' },
-  { style: 'GRAY_BG', color: '#ccc' },
-  { style: 'PURPLE_BG', color: 'plum' },
-];
+import {
+  INLINE_STYLES,
+  COLOR_STYLES,
+  BG_COLOR_STYLES,
+} from '../../constants/inlineStyles';
 
 const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
   const [showTextColors, setShowTextColors] = useState(false);
@@ -83,7 +67,6 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
         </button>
       ))}
 
-     
       <div style={{ position: 'relative' }} ref={textColorRef}>
         <button
           onMouseDown={(e) => {
@@ -137,7 +120,6 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
         )}
       </div>
 
-     
       <div style={{ position: 'relative' }} ref={bgColorRef}>
         <button
           onMouseDown={(e) => {
