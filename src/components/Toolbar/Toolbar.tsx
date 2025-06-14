@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { ToolbarProps } from './Toolbar.types';
 import {
@@ -6,7 +7,7 @@ import {
   BG_COLOR_STYLES,
 } from '../../constants/inlineStyles';
 
-const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
+const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
   const [showTextColors, setShowTextColors] = useState(false);
   const [showBgColors, setShowBgColors] = useState(false);
   const textColorRef = useRef<HTMLDivElement>(null);
@@ -53,6 +54,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
           onMouseDown={(e) => {
             e.preventDefault();
             handleToggle(style);
+            onFocusEditor?.();
           }}
           style={{
             padding: '6px 10px',
@@ -105,6 +107,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
                 onMouseDown={(e) => {
                   e.preventDefault();
                   handleToggle(style);
+                  onFocusEditor?.();
                 }}
                 style={{
                   backgroundColor: color,
@@ -158,6 +161,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle }) => {
                 onMouseDown={(e) => {
                   e.preventDefault();
                   handleToggle(style);
+                  onFocusEditor?.();
                 }}
                 style={{
                   backgroundColor: color,

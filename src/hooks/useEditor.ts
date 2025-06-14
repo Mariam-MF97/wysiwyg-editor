@@ -1,9 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import {
-  EditorState,
-  convertFromRaw,
-  convertToRaw,
-} from 'draft-js';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 
 export const useEditor = (
   value?: string,
@@ -15,8 +11,8 @@ export const useEditor = (
         const parsed = JSON.parse(value);
         const content = convertFromRaw(parsed);
         return EditorState.createWithContent(content);
-      } catch (e) {
-        console.warn('Invalid content, falling back to empty', e);
+      } catch {
+        return EditorState.createEmpty();
       }
     }
     return EditorState.createEmpty();
@@ -24,43 +20,35 @@ export const useEditor = (
 
   const updateState = useCallback(
     (newState: EditorState) => {
-      const selection = newState.getSelection();
-      const content = newState.getCurrentContent();
-
-      const nextState = EditorState.forceSelection(
-        EditorState.createWithContent(content),
-        selection
-      );
-
-      setEditorState(nextState);
+      setEditorState(newState);
 
       if (onChange) {
+        const content = newState.getCurrentContent();
         const raw = convertToRaw(content);
-        const stringified = JSON.stringify(raw);
-        onChange(stringified);
+        onChange(JSON.stringify(raw));
       }
     },
     [onChange]
   );
 
   useEffect(() => {
-    if (value) {
-      try {
-        const parsed = JSON.parse(value);
-        const content = convertFromRaw(parsed);
+    if (!value) return;
 
-        const selection = editorState.getSelection();
-        const nextState = EditorState.forceSelection(
-          EditorState.createWithContent(content),
-          selection
-        );
+    try {
+      const parsed = JSON.parse(value);
+      const content = convertFromRaw(parsed);
+      const newState = EditorState.createWithContent(content);
 
-        setEditorState(nextState);
-      } catch (e) {
-        console.warn('Invalid content in effect, falling back to empty', e);
-      }
+      const withSelection = EditorState.forceSelection(
+        newState,
+        editorState.getSelection()
+      );
+
+      setEditorState(withSelection);
+    } catch (e) {
+      console.warn('Invalid content in useEffect:', e);
     }
-  }, [value, editorState.getSelection()]);
+  }, [value]);
 
   return { editorState, updateState };
 };
