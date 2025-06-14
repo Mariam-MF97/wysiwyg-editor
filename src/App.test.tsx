@@ -2,8 +2,15 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders editor components', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  // Check for both editor headings
+  expect(screen.getByText('Controlled Editor')).toBeInTheDocument();
+  expect(screen.getByText('Uncontrolled Editor')).toBeInTheDocument();
+
+  // Check for toolbar presence
+  expect(
+    screen.getByRole('toolbar', { name: /text formatting toolbar/i })
+  ).toBeInTheDocument();
 });
