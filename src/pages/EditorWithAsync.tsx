@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import WysiwygEditor from '../components/WysiwygEditor';
+import './DemoPage.css';
 
 const fakeFetch = () =>
   new Promise<string>((resolve) => {
@@ -24,9 +25,7 @@ const fakeFetch = () =>
 
 const fakeSave = (data: string) =>
   new Promise<void>((resolve) => {
-    console.log('💾 Saving content to server...', data);
     setTimeout(() => {
-      console.log('✅ Saved!');
       resolve();
     }, 1000);
   });
@@ -55,38 +54,31 @@ const EditorWithAsync = () => {
     setSaving(false);
     setSaved(true);
 
-    setTimeout(() => setSaved(false), 2000); // hide after 2s
+    setTimeout(() => setSaved(false), 2000);
   };
 
   return (
-    <div style={{ padding: 32 }}>
-      <h2>Editor with Async Load + Save</h2>
+    <div className='async-editor-container'>
+      <h2 className='async-editor-title'>Editor with Async Load + Save</h2>
 
       {loading ? (
-        <p>Loading editor...</p>
+        <p className='async-editor-loading'>Loading editor...</p>
       ) : (
         <>
           <WysiwygEditor value={editorContent} onChange={setEditorContent} />
-          <div style={{ marginTop: 16 }}>
+          <div className='async-editor-actions'>
             <button
               onClick={handleSave}
               disabled={saving}
-              style={{
-                padding: '8px 16px',
-                fontWeight: 'bold',
-                cursor: saving ? 'not-allowed' : 'pointer',
-                background: saving ? '#ccc' : '#2d79f3',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 4,
-              }}
+              className='async-save-button'
             >
               {saving ? 'Saving...' : 'Save'}
             </button>
 
             {saved && (
-              <span style={{ marginLeft: 12, color: 'green', fontWeight: 500 }}>
-                ✅ Saved!
+              <span className='async-save-success'>
+                <span className='success-icon'>✓</span>
+                Saved!
               </span>
             )}
           </div>

@@ -104,6 +104,8 @@ Demo includes:
 - Uncontrolled editor
 - Async fetch & save behavior simulation
 
+> Note: The `demo` branch contains the final implementation with all features.
+
 ## ✅ Author
 
 Built with ❤️ by Mariam M. Farouk
