@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ToolbarProps } from './Toolbar.types';
 import {
@@ -40,6 +39,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
 
   return (
     <div
+      role='toolbar'
+      aria-label='Text formatting toolbar'
       style={{
         display: 'flex',
         gap: '10px',
@@ -51,6 +52,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
       {INLINE_STYLES.map(({ label, style }) => (
         <button
           key={style}
+          role='button'
+          aria-label={`Format text ${style.toLowerCase()}`}
           onMouseDown={(e) => {
             e.preventDefault();
             handleToggle(style);
@@ -71,6 +74,9 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
 
       <div style={{ position: 'relative' }} ref={textColorRef}>
         <button
+          role='button'
+          aria-label='Text color'
+          aria-expanded={showTextColors}
           onMouseDown={(e) => {
             e.preventDefault();
             setShowTextColors((prev) => !prev);
@@ -88,6 +94,8 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
         </button>
         {showTextColors && (
           <div
+            role='menu'
+            aria-label='Text color options'
             style={{
               position: 'absolute',
               top: '110%',
@@ -102,8 +110,10 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
             }}
           >
             {COLOR_STYLES.map(({ style, color }) => (
-              <div
+              <button
                 key={style}
+                role='menuitem'
+                aria-label={`Set text color to ${style.toLowerCase()}`}
                 onMouseDown={(e) => {
                   e.preventDefault();
                   handleToggle(style);
@@ -116,6 +126,7 @@ const Toolbar: React.FC<ToolbarProps> = ({ onToggle, onFocusEditor }) => {
                   borderRadius: '50%',
                   cursor: 'pointer',
                   border: '1px solid #999',
+                  padding: 0,
                 }}
               />
             ))}
